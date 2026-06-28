@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security and Audit | Cybersecurity & GRC Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-pink: #ec4899;
+            --border: #27272a;
+            --border-light: #3f3f46;
+            --gradient-1: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #8b5cf6, #ec4899);
+        }
+
+        /* LIGHT THEME */
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --border-light: #cbd5e1;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-primary); 
+            color: var(--text-primary); 
+            line-height: 1.6; 
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* NAV - Centered */
+        nav { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            padding: 1rem 5%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: var(--bg-primary);
+            opacity: 0.98;
+            backdrop-filter: blur(20px); 
+            z-index: 1000; 
+            border-bottom: 1px solid var(--border); 
+            transition: background 0.3s;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            text-decoration: none; 
+        }
+
+        .logo-icon { 
+            width: 45px; 
+            height: 45px; 
+            background: var(--gradient-1); 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.4rem; 
+        }
+
+        .logo-text { 
+            font-size: 1.4rem; 
+            font-weight: 800; 
+            color: var(--text-primary); 
+        }
+
+        .logo-text span { 
+            background: var(--gradient-1); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        /* HERO */
+        .hero { 
+            min-height: 100vh; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 4rem; 
+            align-items: center; 
+            padding: 8rem 5% 4rem; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            position: relative; 
+        }
+
+        .hero::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: radial-gradient(circle at 20% 30%, rgba(6,182,212,0.12) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(139,92,246,0.12) 0%, transparent 40%); 
+            z-index: -1; 
+        }
+
+        .hero-badge { 
+            display: inline-block; 
+            background: rgba(6,182,212,0.1); 
+            border: 1px solid rgba(6,182,212,0.3); 
+            padding: 0.5rem 1.25rem; 
+            border-radius: 50px; 
+            font-size: 0.9rem; 
+            color: var(--accent-cyan); 
+            margin-bottom: 1.5rem; 
+        }
+
+        .hero h1 { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            line-height: 1.15; 
+            margin-bottom: 1.5rem; 
+        }
+
+        .gradient-text { 
+            background: var(--gradient-1); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        .gradient-text-2 { 
+            background: var(--gradient-2); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        .hero-description { 
+            font-size: 1.1rem; 
+            color: var(--text-secondary); 
+            margin-bottom: 2rem; 
+            line-height: 1.8; 
+        }
+
+        .hero-buttons { 
+            display: flex; 
+            gap: 1rem; 
+            flex-wrap: wrap; 
+        }
+
+        .btn { 
+            padding: 1rem 2rem; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            text-decoration: none; 
+            transition: 0.3s; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            border: none; 
+            cursor: pointer; 
+        }
+
+        .btn-primary { 
+            background: var(--gradient-1); 
+            color: white; 
+        }
+
+        .btn-primary:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 35px rgba(6,182,212,0.4); 
+        }
+
+        .btn-secondary { 
+            background: var(--bg-card); 
+            color: var(--text-primary); 
+            border: 2px solid var(--border-light); 
+        }
+
+        .btn-secondary:hover { 
+            border-color: var(--accent-cyan); 
+            color: var(--accent-cyan); 
+        }
+
+        /* HERO CARD */
+        .hero-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 2rem; 
+            position: relative; 
+            transition: background 0.3s, border 0.3s;
+        }
+
+        .hero-card::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 4px; 
+            background: var(--gradient-1); 
+            border-radius: 20px 20px 0 0; 
+        }
+
+        .hero-stats { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 1rem; 
+            margin-bottom: 1.5rem; 
+        }
+
+        .stat-box { 
+            text-align: center; 
+            padding: 1rem; 
+            background: var(--bg-secondary); 
+            border-radius: 12px; 
+            transition: background 0.3s;
+        }
+
+        .stat-box .stat-number { 
+            font-size: 1.75rem; 
+            font-weight: 800; 
+            background: var(--gradient-1); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        .stat-box .stat-label { 
+            font-size: 0.7rem; 
+            color: var(--text-muted); 
+            text-transform: uppercase; 
+        }
+
+        .mini-track { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            background: var(--bg-secondary); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 1rem; 
+            margin-bottom: 0.75rem; 
+            transition: 0.3s; 
+        }
+
+        .mini-track:hover { 
+            border-color: var(--accent-cyan); 
+            transform: translateX(5px); 
+        }
+
+        .track-icon { 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.2rem; 
+        }
+
+        .track-icon.purple { background: rgba(139,92,246,0.2); }
+        .track-icon.pink { background: rgba(236,72,153,0.2); }
+        .track-icon.green { background: rgba(16,185,129,0.2); }
+        .track-info h4 { font-size: 0.95rem; }
+        .track-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* STATS SECTION */
+        .stats-section { 
+            background: var(--bg-secondary); 
+            padding: 4rem 5%; 
+            border-top: 1px solid var(--border); 
+            border-bottom: 1px solid var(--border); 
+            transition: background 0.3s;
+        }
+
+        .stats-grid { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 2rem; 
+        }
+
+        .stat-item { text-align: center; }
+        .stat-item .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .stat-item .stat-value { 
+            font-size: 2.25rem; 
+            font-weight: 800; 
+            background: var(--gradient-1); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .stat-item .stat-text { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* CURRICULUM */
+        .curriculum-section { 
+            padding: 5rem 5%; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+        }
+
+        .section-header { 
+            text-align: center; 
+            margin-bottom: 3rem; 
+        }
+
+        .section-badge { 
+            display: inline-block; 
+            background: rgba(6,182,212,0.1); 
+            border: 1px solid rgba(6,182,212,0.3); 
+            padding: 0.5rem 1.25rem; 
+            border-radius: 50px; 
+            font-size: 0.9rem; 
+            color: var(--accent-cyan); 
+            margin-bottom: 1rem; 
+        }
+
+        .section-header h2 { 
+            font-size: 2.25rem; 
+            font-weight: 800; 
+            margin-bottom: 1rem; 
+        }
+
+        .section-header p { 
+            color: var(--text-secondary); 
+            font-size: 1.05rem; 
+        }
+
+        /* TABS */
+        .tabs { 
+            display: flex; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            flex-wrap: wrap; 
+            background: var(--bg-secondary); 
+            padding: 0.5rem; 
+            border-radius: 12px; 
+            max-width: fit-content; 
+            margin: 0 auto 3rem; 
+            transition: background 0.3s;
+        }
+
+        .tab { 
+            padding: 0.75rem 1.25rem; 
+            border-radius: 8px; 
+            border: none; 
+            background: transparent; 
+            color: var(--text-secondary); 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            font-family: 'Inter', sans-serif; 
+        }
+
+        .tab:hover { color: var(--text-primary); }
+        .tab.active { background: var(--gradient-1); color: white; }
+        .tab-count { 
+            background: rgba(255,255,255,0.2); 
+            padding: 0.15rem 0.5rem; 
+            border-radius: 5px; 
+            font-size: 0.75rem; 
+            margin-left: 0.4rem; 
+        }
+
+        /* CATEGORY */
+        .category-section { margin-bottom: 4rem; }
+        .category-header { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            margin-bottom: 1.5rem; 
+            padding-bottom: 1rem; 
+            border-bottom: 1px solid var(--border); 
+        }
+
+        .category-icon { 
+            width: 55px; 
+            height: 55px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1.5rem; 
+        }
+
+        .category-icon.purple { background: rgba(139,92,246,0.2); }
+        .category-icon.pink { background: rgba(236,72,153,0.2); }
+        .category-icon.green { background: rgba(16,185,129,0.2); }
+        .category-header h3 {
+                                   font-size: 1.4rem; 
+            margin-bottom: 0.25rem; 
+        }
+        .category-header p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* TOPIC CARDS */
+        .topics-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 1.25rem; 
+        }
+
+        .topic-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            border-radius: 14px; 
+            padding: 1.5rem; 
+            transition: 0.3s; 
+        }
+
+        .topic-card:hover { 
+            border-color: var(--accent-cyan); 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+        }
+
+        .card-badge { 
+            display: inline-block; 
+            padding: 0.3rem 0.75rem; 
+            border-radius: 6px; 
+            font-size: 0.7rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            margin-bottom: 0.75rem; 
+        }
+
+        .card-badge.purple { background: rgba(139,92,246,0.2); color: var(--accent-purple); }
+        .card-badge.pink { background: rgba(236,72,153,0.2); color: var(--accent-pink); }
+        .card-badge.green { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+        .topic-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .topic-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+        .card-link { color: var(--accent-cyan); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+        .card-link:hover { color: var(--accent-purple); }
+
+        /* FOOTER */
+        footer { 
+            background: var(--bg-secondary); 
+            padding: 3rem 5%; 
+            text-align: center; 
+            border-top: 1px solid var(--border); 
+            transition: background 0.3s;
+        }
+        footer p { color: var(--text-muted); }
+
+        /* SCROLL ANIMATIONS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.delay-1 { transition-delay: 0.1s; }
+        .animate-on-scroll.delay-2 { transition-delay: 0.2s; }
+        .animate-on-scroll.delay-3 { transition-delay: 0.3s; }
+        .animate-on-scroll.delay-4 { transition-delay: 0.4s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-buttons { justify-content: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .topics-grid { grid-template-columns: 1fr; }
+            .logo-text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION - Centered -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">🛡️</div>
+                <span class="logo-text">Security <span>and Audit</span></span>
+            </a>
+            <button class="theme-toggle" id="themeToggle" title="Toggle Theme">🌙</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge animate-on-scroll">🔐 Learn. Practice. Master.</div>
+            <h1 class="animate-on-scroll delay-1">Practical <span class="gradient-text">Cybersecurity</span> & <span class="gradient-text-2">GRC</span> Learning Hub</h1>
+            <p class="hero-description animate-on-scroll delay-2">Master real-world cybersecurity and governance, risk & compliance through curated topics, hands-on labs, and industry-grade frameworks.</p>
+            <div class="hero-buttons animate-on-scroll delay-3">
+                <a href="#curriculum" class="btn btn-primary">Explore Topics →</a>
+                <a href="#curriculum" class="btn btn-secondary">Browse Curriculum</a>
+            </div>
+        </div>
+        <div class="hero-visual animate-on-scroll delay-2">
+            <div class="hero-card">
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">29</div>
+                        <div class="stat-label">Total Topics</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">18</div>
+                        <div class="stat-label">Frameworks</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">Laws & Standards</div>
+                    </div>
+                </div>
+                <div class="mini-track">
+                    <div class="track-icon purple">📋</div>
+                    <div class="track-info">
+                        <h4>Frameworks</h4>
+                        <p>18 structured guidance topics</p>
+                    </div>
+                </div>
+                <div class="mini-track">
+                    <div class="track-icon pink">⚖️</div>
+                    <div class="track-info">
+                        <h4>Laws</h4>
+                        <p>5 legal & regulatory topics</p>
+                    </div>
+                </div>
+                <div class="mini-track">
+                    <div class="track-icon green">📜</div>
+                    <div class="track-info">
+                        <h4>Standards</h4>
+                        <p>6 international standards</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item animate-on-scroll">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value">29</div>
+                <div class="stat-text">Learning Tracks</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-1">
+                <div class="stat-icon">🧪</div>
+                <div class="stat-value">50+</div>
+                <div class="stat-text">Hands-on Labs</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-2">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-value">15+</div>
+                <div class="stat-text">Industry Frameworks</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-3">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-value">Global</div>
+                <div class="stat-text">Coverage</div>
+            </div>
+        </div>
+    </section>
+        <!-- CURRICULUM SECTION -->
+    <section id="curriculum" class="curriculum-section">
+        <div class="section-header animate-on-scroll">
+            <p>Browse by category. Every tab is a guided path.</p>
+        </div>
+
+        <div class="tabs animate-on-scroll delay-1">
+            <button class="tab">Frameworks <span class="tab-count">18</span></button>
+            <button class="tab">Laws <span class="tab-count">5</span></button>
+            <button class="tab">Standards <span class="tab-count">6</span></button>
+        </div>
+
+        <!-- FRAMEWORKS -->
+        <div id="frameworks" class="category-section">
+            <div class="category-header animate-on-scroll">
+                <div class="category-icon purple">📋</div>
+                <div>
+                    <h3>Frameworks</h3>
+                    <p>18 Topics — Structured guidance and control models used to design, govern, and audit security.</p>
+                </div>
+            </div>
+            <div class="topics-grid">
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>SOC 1</h4>
+                    <p>Controls over financial reporting for service organizations.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>SOC 2</h4>
+                    <p>Trust Services Criteria: security, availability, confidentiality.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>SOC 3</h4>
+                    <p>General-use SOC 2 report for public distribution.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>SOC (Security Operations Centre)</h4>
+                    <p>Monitoring, detection, and response across the enterprise.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>Application Controls</h4>
+                    <p>Controls embedded within business applications and transactions.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>COSO Framework</h4>
+                    <p>Internal control framework for enterprise risk and reporting.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>ITGC</h4>
+                    <p>IT General Controls across access, change, and operations.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>COBIT Framework</h4>
+                    <p>Governance and management framework for enterprise IT.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>PCI DSS</h4>
+                    <p>Payment Card Industry Data Security Standard.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>RBI Cybersecurity Framework</h4>
+                    <p>Reserve Bank of India cyber resilience mandates for banks.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>NIST Cybersecurity Framework</h4>
+                    <p>Identify, Protect, Detect, Respond, Recover.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>SEBI Cybersecurity Guidelines</h4>
+                    <p>Cyber resilience rules for Indian market intermediaries.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>CERT-In Guidelines</h4>
+                    <p>Indian CERT incident reporting and cybersecurity directions.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>CSA CCM</h4>
+                    <p>Cloud-specific control framework aligning multiple standards.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>Cyber / Data Incident Reporting</h4>
+                    <p>Who to notify and when across jurisdictions.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>IRDAI Cybersecurity Guidelines</h4>
+                    <p>Cybersecurity framework for insurers and intermediaries.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge purple">Framework</div>
+                    <h4>CEA Cybersecurity Guidelines</h4>
+                    <p>CEA framework for Indian power sector — protecting grid infrastructure.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                <div class="card-badge purple">Framework</div>
+                    <h4>DoT Cybersecurity Guidelines</h4>
+                    <p>DoT security guidelines for Indian telecom service providers.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAWS -->
+        <div id="laws" class="category-section">
+            <div class="category-header animate-on-scroll">
+                <div class="category-icon pink">⚖️</div>
+                <div>
+                    <h3>Laws</h3>
+                    <p>5 Topics — Binding legal and regulatory obligations that govern privacy and data protection.</p>
+                </div>
+            </div>
+            <div class="topics-grid">
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge pink">Law</div>
+                    <h4>HIPAA Act</h4>
+                    <p>Protected Health Information privacy and security rules.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge pink">Law</div>
+                    <h4>GDPR</h4>
+                    <p>EU regulation on personal data protection and privacy.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge pink">Law</div>
+                    <h4>CCPA</h4>
+                    <p>California privacy rights and business obligations.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge pink">Law</div>
+                    <h4>DPDP Act 2023</h4>
+                    <p>India's digital personal data protection law.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge pink">Law</div>
+                    <h4>I.T Act 2000 (2008 Amendment)</h4>
+                    <p>Legal backbone of cybersecurity in India.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- STANDARDS -->
+        <div id="standards" class="category-section">
+            <div class="category-header animate-on-scroll">
+                <div class="category-icon green">📜</div>
+                <div>
+                    <h3>Standards</h3>
+                    <p>6 Topics — Internationally recognized standards that define requirements and best practices.</p>
+                </div>
+            </div>
+            <div class="topics-grid">
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISAE 3402 and ISAE 3000</h4>
+                    <p>International assurance standards for service organizations.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISO 19011</h4>
+                    <p>Guidance for auditing management systems effectively.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISO 27001:2022</h4>
+                    <p>Information Security Management System (ISMS) — international standard for managing information security risks.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISO 42001:2023</h4>
+                    <p>Artificial Intelligence Management System (AIMS) — governance framework for responsible AI.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-1">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISO 22301:2019</h4>
+                    <p>Business Continuity Management System (BCMS) — ensure resilience against disruptions.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+                <div class="topic-card animate-on-scroll delay-2">
+                    <div class="card-badge green">Standard</div>
+                    <h4>ISO 27701:2025</h4>
+                    <p>Privacy Information Management System (PIMS) — extension of ISO 27001 for data privacy.</p>
+                    <a href="#" class="card-link">Open Track →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2024 Qubnix IT Solutions · All Rights Reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR THEME TOGGLE & SCROLL ANIMATIONS -->
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
+        });
+
+        // Scroll Animations
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        animateElements.forEach(el => observer.observe(el));
+
+        // Tab Functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
